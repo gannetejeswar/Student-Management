@@ -1,0 +1,9 @@
+com\example\student\StudentEventProducer.class
+com\example\student\Student.class
+com\example\student\StudentServiceApplication.class
+com\example\student\KafkaConfig.class
+com\example\student\StudentEvent.class
+com\example\student\MinioService.class
+com\example\student\StudentRepository.class
+com\example\student\StudentController.class
+com\example\student\StudentService.class

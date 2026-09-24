@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Student Management System</title>
+
+    <link rel="stylesheet"
+          href="css/style.css">
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                S
+            </div>
+
+            <div class="logo-text">
+
+                <h2>StudentHub</h2>
+
+                <span>
+                    Management System
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <nav>
+
+
+            <button
+                class="nav-item active"
+                onclick="showPage('dashboard', this)">
+
+                <span>⌂</span>
+
+                Dashboard
+
+            </button>
+
+
+            <button
+                class="nav-item"
+                onclick="showPage('students', this)">
+
+                <span>👨‍🎓</span>
+
+                Students
+
+            </button>
+
+
+            <button
+                class="nav-item"
+                onclick="showPage('addStudent', this)">
+
+                <span>＋</span>
+
+                Add Student
+
+            </button>
+
+
+            <button
+                class="nav-item"
+                onclick="showPage('system', this)">
+
+                <span>⚙</span>
+
+                System
+
+            </button>
+
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="connection">
+
+                <span class="status-dot"></span>
+
+                API Connected
+
+            </div>
+
+        </div>
+
+
+    </aside>
+
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+
+            <div>
+
+                <h1 id="pageTitle">
+                    Dashboard
+                </h1>
+
+                <p id="pageDescription">
+                    Student management overview
+                </p>
+
+            </div>
+
+
+            <button
+                class="refresh-btn"
+                onclick="loadStudents()">
+
+                ↻ Refresh
+
+            </button>
+
+
+        </header>
+
+
+
+        <!-- ================= DASHBOARD ================= -->
+
+        <section
+            id="dashboard"
+            class="page active">
+
+
+            <div class="stats">
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        👨‍🎓
+                    </div>
+
+                    <div>
+
+                        <p>
+                            Total Students
+                        </p>
+
+                        <h2 id="totalStudents">
+                            0
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        📚
+                    </div>
+
+                    <div>
+
+                        <p>
+                            Courses
+                        </p>
+
+                        <h2 id="totalCourses">
+                            0
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        ☁️
+                    </div>
+
+                    <div>
+
+                        <p>
+                            Storage
+                        </p>
+
+                        <h2>
+                            MinIO
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        📊
+                    </div>
+
+                    <div>
+
+                        <p>
+                            Monitoring
+                        </p>
+
+                        <h2>
+                            Grafana
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- RECENT STUDENTS -->
+
+            <div class="panel">
+
+
+                <div class="panel-header">
+
+
+                    <div>
+
+                        <h2>
+                            Recent Students
+                        </h2>
+
+                        <p>
+                            Latest registered students
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        class="primary-btn"
+                        onclick="showPage('addStudent')">
+
+                        + Add Student
+
+                    </button>
+
+
+                </div>
+
+
+
+                <div class="table-container">
+
+
+                    <table>
+
+
+                        <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Name</th>
+
+                            <th>Email</th>
+
+                            <th>Course</th>
+
+                            <th>Actions</th>
+
+                        </tr>
+
+                        </thead>
+
+
+                        <tbody
+                            id="dashboardStudentTable">
+
+                        </tbody>
+
+
+                    </table>
+
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ================= STUDENTS ================= -->
+
+        <section
+            id="students"
+            class="page">
+
+
+            <div class="panel">
+
+
+                <div class="panel-header">
+
+
+                    <div>
+
+                        <h2>
+                            Students details
+                        </h2>
+
+                        <p>
+                            Manage all students
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        class="primary-btn"
+                        onclick="showPage('addStudent')">
+
+                        + Add Student
+
+                    </button>
+
+
+                </div>
+
+
+
+                <div class="search-area">
+
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="Search by name, email or course..."
+                        onkeyup="searchStudents()">
+
+
+                </div>
+
+
+
+                <div class="table-container">
+
+
+                    <table>
+
+
+                        <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Name</th>
+
+                            <th>Email</th>
+
+                            <th>Course</th>
+
+                            <th>Actions</th>
+
+                        </tr>
+
+                        </thead>
+
+
+                        <tbody
+                            id="studentTable">
+
+                        </tbody>
+
+
+                    </table>
+
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ================= ADD STUDENT ================= -->
+
+        <section
+            id="addStudent"
+            class="page">
+
+
+            <div class="form-panel">
+
+
+                <div class="form-header">
+
+                    <h2>
+                        Add Student
+                    </h2>
+
+                    <p>
+                        Create a new student record
+                    </p>
+
+                </div>
+
+
+
+                <form
+                    id="studentForm">
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Student Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="name"
+                                placeholder="Enter student name"
+                                required>
+
+                        </div>
+
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Email
+                            </label>
+
+                            <input
+                                type="email"
+                                id="email"
+                                placeholder="student@example.com"
+                                required>
+
+                        </div>
+
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Course
+                            </label>
+
+                            <input
+                                type="text"
+                                id="course"
+                                placeholder="Enter course"
+                                required>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div class="form-actions">
+
+
+                        <button
+                            type="button"
+                            class="secondary-btn"
+                            onclick="showPage('students')">
+
+                            Cancel
+
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            class="primary-btn">
+
+                            Save Student
+
+                        </button>
+
+
+                    </div>
+
+
+                </form>
+
+
+            </div>
+
+
+        </section>
+
+<!-- ================= SYSTEM ================= -->
+
+<section id="system" class="page">
+
+    <div class="system-grid">
+
+        <!-- Spring Boot -->
+
+        <div class="system-card clickable-card"
+             onclick="openService('springboot')">
+
+            <div class="system-icon">
+                🟢
+            </div>
+
+            <h3>Spring Boot</h3>
+
+            <p id="apiStatus">
+                Checking...
+            </p>
+
+            <span class="system-status">
+                Open API
+            </span>
+
+        </div>
+        <div class="system-card clickable-card"
+             onclick="openService('promethus')">
+
+            <div class="system-icon">
+                🟢
+            </div>
+
+            <h3>Promethus</h3>
+
+            <p id="apiStatus">
+                Checking...
+            </p>
+
+            <span class="system-status">
+                Open API
+            </span>
+
+        </div>
+
+        <!-- MySQL -->
+
+        <div class="system-card">
+
+            <div class="system-icon">
+                🗄️
+            </div>
+
+            <h3>MySQL</h3>
+
+            <p>
+                Database
+            </p>
+
+            <span class="system-status">
+                Configured
+            </span>
+
+        </div>
+
+
+        <!-- Kafka -->
+
+        <div class="system-card"
+            onclick="openService('kafka')">
+
+            <div class="system-icon">
+                📨
+            </div>
+
+            <h3>Kafka</h3>
+
+            <p>
+                Event Streaming
+            </p>
+
+            <span class="system-status">
+                Open Kafka UI
+            </span>
+
+        </div>
+
+
+        <!-- MinIO -->
+
+        <div class="system-card"
+             onclick="openService('minio')">
+
+            <div class="system-icon">
+                ☁️
+            </div>
+
+            <h3>MinIO</h3>
+
+            <p>
+                Object Storage
+            </p>
+
+            <span class="system-status">
+                Open MinIO
+            </span>
+
+        </div>
+
+
+        <!-- Grafana -->
+
+        <div class="system-card"
+             onclick="openService('grafana')">
+
+            <div class="system-icon">
+                📈
+            </div>
+
+            <h3>Grafana</h3>
+
+            <p>
+                Monitoring
+            </p>
+
+            <span class="system-status">
+                Open Grafana
+            </span>
+
+        </div>
+
+
+        <!-- Kibana -->
+
+        <div class="system-card"
+             onclick="openService('kibana')">
+
+            <div class="system-icon">
+                🔎
+            </div>
+
+            <h3>Kibana</h3>
+
+            <p>
+                Log Visualization
+            </p>
+
+            <span class="system-status">
+                Open Kibana
+            </span>
+
+        </div>
+
+
+        <div class="system-card"
+             onclick="openService('elasticsearch')">
+
+            <div class="system-icon">
+                🔎
+            </div>
+
+            <h3>Elasticsearch</h3>
+
+            <p>
+                Log Data
+            </p>
+
+            <span class="system-status">
+                Open elasticsearch
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+</main>
+</div>
+
+
+<!-- ================= EDIT MODAL ================= -->
+
+<div
+    id="editModal"
+    class="modal">
+
+
+    <div class="modal-content">
+
+
+        <div class="modal-header">
+
+            <h2>
+                Edit Student
+            </h2>
+
+            <button
+                onclick="closeModal()">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+
+        <form
+            id="editForm">
+
+
+            <input
+                type="hidden"
+                id="editId">
+
+
+
+            <div class="form-group">
+
+                <label>
+                    Student Name
+                </label>
+
+                <input
+                    id="editName"
+                    required>
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    id="editEmail"
+                    type="email"
+                    required>
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label>
+                    Course
+                </label>
+
+                <input
+                    id="editCourse"
+                    required>
+
+            </div>
+
+
+
+            <div class="form-actions">
+
+
+                <button
+                    type="button"
+                    class="secondary-btn"
+                    onclick="closeModal()">
+
+                    Cancel
+
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="primary-btn">
+
+                    Update
+
+                </button>
+
+
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- TOAST -->
+
+<div
+    id="toast"
+    class="toast">
+
+</div>
+
+
+
+<script src="js/app.js"></script>
+
+
+</body>
+
+</html>

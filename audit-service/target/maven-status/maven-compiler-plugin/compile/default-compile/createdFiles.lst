@@ -1,0 +1,6 @@
+com\example\audit\Listener.class
+com\example\audit\KafkaConfig.class
+com\example\audit\AuditLog.class
+com\example\audit\AuditRepository.class
+com\example\audit\AuditServiceApplication.class
+com\example\audit\StudentEvent.class
